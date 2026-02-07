@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayesha-Bilal: The Love System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Playfair+Display:italic,wght@600&display=swap');
+
+        /* VIBRANT ANIMATED BACKGROUND */
+        body { 
+            background: linear-gradient(135deg, #1a0000, #2d0015, #000000);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #fff; 
+            font-family: 'Inter', sans-serif; 
+            margin: 0; 
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .glass { 
+            background: rgba(255, 255, 255, 0.05); 
+            backdrop-filter: blur(20px); 
+            border: 1px solid rgba(255, 215, 0, 0.2); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        
+        /* HIDDEN GHOST BUTTONS */
+        .ghost-btn {
+            position: relative;
+            height: 60px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            background: rgba(255, 255, 255, 0.02);
+            transition: all 0.5s ease;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: transparent; 
+            cursor: pointer;
+        }
+
+        .ghost-btn:hover, .ghost-btn:active {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: rgba(255, 215, 0, 0.6);
+            color: #ffd700; 
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+
+        /* VOID SCREEN */
+        #void-screen {
+            position: fixed; inset: 0; background: #000;
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 99999; cursor: pointer;
+        }
+
+        /* RESPONSIVE FLOWER */
+        .flower { position: relative; width: 150px; height: 150px; z-index: 10; }
+        @media (min-width: 768px) { .flower { width: 200px; height: 200px; } }
+
+        .petal {
+            position: absolute; left: 50%; bottom: 50%;
+            width: 10px; height: 10px; background: #d50000;
+            border-radius: 50% 50% 50% 50% / 80% 80% 20% 20%;
+            transform-origin: bottom center; opacity: 0;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+            transition: all 2.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .blooming .petal { opacity: 0.9; }
+
+        /* TEXT LAYER */
+        #rose-message {
+            margin-top: 40px; color: #ffd700; font-family: 'Georgia', serif;
+            font-size: 22px; font-style: italic; opacity: 0; transition: 3s;
+            text-shadow: 0 0 20px rgba(0, 0, 0, 1), 0 0 10px rgba(255, 215, 0, 0.6);
+            z-index: 100000; text-align: center; padding: 0 20px;
+        }
+        @media (min-width: 768px) { #rose-message { font-size: 28px; } }
+
+        /* EXIT BUTTON (HIDDEN UNTIL BLOOMED) */
+        #exit-void {
+            margin-top: 30px;
+            opacity: 0;
+            pointer-events: none;
+            transition: 2s;
+            background: rgba(255,215,0,0.1);
+            border: 1px solid #ffd700;
+            color: #ffd700;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            z-index: 100001;
+        }
+        .show-exit { opacity: 1 !important; pointer-events: auto !important; }
+
+        .glitter {
+            position: absolute; background: radial-gradient(circle, #fff700 0%, #d4af37 100%);
+            border-radius: 50%; pointer-events: none; z-index: 50000;
+            animation: fall linear forwards;
+        }
+        @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div id="main-hub" class="flex flex-col items-center justify-center min-h-screen p-4 text-center w-full">
+        
+        <div class="glass p-6 md:p-10 rounded-[2.5rem] mb-8 w-full max-w-sm">
+            <h1 class="text-xl md:text-2xl font-bold mb-4 italic text-yellow-500">For My Cutttiee</h1>
+            <p id="countdown" class="text-lg md:text-xl font-mono text-red-500 bg-black/60 p-3 rounded-xl border border-red-900/40">00 DAYS LEFT</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 w-full max-w-sm">
+            <button onclick="launchRoseDay()" class="ghost-btn">
+                <span class="text-[10px] md:text-[12px] font-bold uppercase">🌹 Rose Day</span>
+            </button>
+            <button onclick="startQuiz()" class="ghost-btn">
+                <span class="text-[10px] md:text-[12px] font-bold uppercase">✨ Question</span>
+            </button>
+        </div>
+
+        <div id="proposal-area" class="hidden mt-8 glass p-6 md:p-10 rounded-[2.5rem] max-w-sm w-full transition-all">
+            <h2 class="text-xl font-serif italic mb-4 text-yellow-500">Muhammad Bilal...</h2>
+            <p class="mb-6 text-[10px] text-gray-300 tracking-[0.2em] uppercase">Will you be my Valentine?</p>
+            <div class="flex gap-4 justify-center">
+                <button onclick="alert('Uh are my cutiee forever! Lots of lovee')" class="bg-red-700 hover:bg-red-500 px-6 py-2 rounded-full font-bold transition-all text-sm">YES</button>
+                <button onmouseover="moveNo(this)" ontouchstart="moveNo(this)" class="bg-white/10 px-6 py-2 rounded-full opacity-40 text-sm">NO</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="void-screen" onclick="startBloom()">
+        <div id="hint" class="text-yellow-600/40 uppercase tracking-[0.5em] text-[10px] mb-8 text-center">Click on the void to see my Jadduu</div>
+        <div class="flower" id="flowerArt"></div>
+        <div id="rose-message">Happy Rose Day my Cutie</div>
+        <button id="exit-void" onclick="event.stopPropagation(); closeVoid()">Now Answer the Question</button>
+    </div>
+
+    <script>
+        function startQuiz() { document.getElementById('proposal-area').classList.remove('hidden'); }
+
+        function moveNo(btn) {
+            btn.style.position = 'fixed';
+            btn.style.left = Math.random() * 60 + 20 + '%';
+            btn.style.top = Math.random() * 60 + 20 + '%';
+        }
+
+        const flower = document.getElementById('flowerArt');
+        const totalPetals = 45; 
+
+        function launchRoseDay() {
+            document.getElementById('void-screen').style.display = 'flex';
+            flower.innerHTML = ''; // Clear for reset
+            for (let i = 0; i < totalPetals; i++) {
+                const p = document.createElement('div');
+                p.className = 'petal';
+                flower.appendChild(p);
+            }
+        }
+
+        function closeVoid() {
+            document.getElementById('void-screen').style.display = 'none';
+            // Reset states for next time
+            document.getElementById('rose-message').style.opacity = '0';
+            document.getElementById('exit-void').classList.remove('show-exit');
+            document.getElementById('hint').style.opacity = '1';
+            flower.classList.remove('blooming');
+        }
+
+        function startBloom() {
+            document.getElementById('hint').style.opacity = '0';
+            flower.classList.add('blooming');
+            const petals = document.querySelectorAll('.petal');
+            petals.forEach((p, i) => {
+                const angle = i * 137.5; 
+                const size = window.innerWidth < 768 ? 20 + (i * 1.5) : 25 + (i * 2);
+                const shift = i * 0.6;
+                p.style.width = size + 'px';
+                p.style.height = (size * 1.5) + 'px';
+                p.style.marginLeft = -(size / 2) + 'px';
+                p.style.zIndex = totalPetals - i; 
+                setTimeout(() => {
+                    p.style.transform = `rotate(${angle}deg) translateY(-${shift}px) scale(1)`;
+                    p.style.background = `radial-gradient(circle at 30% 30%, #ff1a1a, #800000)`;
+                }, i * 80);
+            });
+
+            setTimeout(() => { 
+                document.getElementById('rose-message').style.opacity = '1';
+                document.getElementById('exit-void').classList.add('show-exit');
+            }, 4500);
+            
+            setInterval(createGlitter, 150);
+        }
+
+        function createGlitter() {
+            if(document.getElementById('void-screen').style.display === 'none') return;
+            const g = document.createElement('div');
+            g.className = 'glitter';
+            const size = Math.random() * 3 + 2 + 'px';
+            g.style.width = size; g.style.height = size;
+            g.style.left = Math.random() * 100 + 'vw';
+            g.style.top = '-10px';
+            const duration = Math.random() * 3 + 2;
+            g.style.animationDuration = duration + 's';
+            document.body.appendChild(g);
+            setTimeout(() => g.remove(), duration * 1000);
+        }
+
+        function updateTimer() {
+            const target = new Date("Feb 14, 2026 00:00:00").getTime();
+            const days = Math.floor((target - new Date().getTime()) / (1000 * 60 * 60 * 24));
+            document.getElementById('countdown').innerText = (days > 0 ? days : 0) + " DAYS LEFT";
+        }
+        updateTimer();
+    </script>
+</body>
+</html>
