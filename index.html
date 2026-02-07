@@ -35,27 +35,28 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         
-        /* HIDDEN GHOST BUTTONS */
+        /* UPDATED VISIBLE BUTTONS FOR MOBILE & DESKTOP */
         .ghost-btn {
             position: relative;
             height: 60px;
             border-radius: 15px;
-            border: 1px solid rgba(255, 215, 0, 0.1);
-            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 215, 0, 0.3); /* Made border slightly more visible */
+            background: rgba(255, 255, 255, 0.05);
             transition: all 0.5s ease;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: transparent; 
+            color: #ffd700; /* Text is now VISIBLE by default */
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
             cursor: pointer;
         }
 
         .ghost-btn:hover, .ghost-btn:active {
-            background: rgba(255, 215, 0, 0.1);
-            border-color: rgba(255, 215, 0, 0.6);
-            color: #ffd700; 
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            background: rgba(255, 215, 0, 0.2);
+            border-color: rgba(255, 215, 0, 0.9);
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
         }
 
         /* VOID SCREEN */
@@ -88,7 +89,6 @@
         }
         @media (min-width: 768px) { #rose-message { font-size: 28px; } }
 
-        /* EXIT BUTTON (HIDDEN UNTIL BLOOMED) */
         #exit-void {
             margin-top: 30px;
             opacity: 0;
@@ -125,7 +125,7 @@
 
         <div class="grid grid-cols-2 gap-4 w-full max-w-sm">
             <button onclick="launchRoseDay()" class="ghost-btn">
-                <span class="text-[10px] md:text-[12px] font-bold uppercase">🌹 Rose Day</span>
+                <span class="text-[10px] md:text-[12px] font-bold uppercase">🌹 Magic</span>
             </button>
             <button onclick="startQuiz()" class="ghost-btn">
                 <span class="text-[10px] md:text-[12px] font-bold uppercase">✨ Question</span>
@@ -163,7 +163,7 @@
 
         function launchRoseDay() {
             document.getElementById('void-screen').style.display = 'flex';
-            flower.innerHTML = ''; // Clear for reset
+            flower.innerHTML = ''; 
             for (let i = 0; i < totalPetals; i++) {
                 const p = document.createElement('div');
                 p.className = 'petal';
@@ -173,7 +173,6 @@
 
         function closeVoid() {
             document.getElementById('void-screen').style.display = 'none';
-            // Reset states for next time
             document.getElementById('rose-message').style.opacity = '0';
             document.getElementById('exit-void').classList.remove('show-exit');
             document.getElementById('hint').style.opacity = '1';
